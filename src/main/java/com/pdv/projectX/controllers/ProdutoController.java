@@ -6,6 +6,7 @@ import com.pdv.projectX.entities.Produto;
 import com.pdv.projectX.services.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,12 +19,18 @@ public class ProdutoController {
 
 
 
-    @Autowired
-    private ProdutoService produtoService;
+    private final ProdutoService produtoService;
 
-    @PostMapping
+    public ProdutoController(ProdutoService produtoService) {
+        this.produtoService = produtoService;
+    }
+
+
+    //Cadastrar um produto acionando o service!
+    @PostMapping("cadastrar")
     public ResponseEntity<Produto> cadastrarProduto(@Valid @RequestBody CadastrarProdutoDTO cadastrarProdutoDTO) {
-      return produtoService.adicionarProduto(cadastrarProdutoDTO);
+      Produto produtoSalvo = produtoService.adicionarProduto(cadastrarProdutoDTO);
+      return ResponseEntity.status(HttpStatus.CREATED).body(produtoSalvo);
     }
 
 

@@ -1,7 +1,14 @@
 package com.pdv.projectX.dtos;
 
 import com.pdv.projectX.entities.Cliente;
+import com.pdv.projectX.entities.ItemPedido;
 import com.pdv.projectX.entities.Pedido;
+import jakarta.validation.constraints.NotNull;
 
-public record CriarPedidoDTO(Cliente c) {
+import java.util.List;
+
+public record CriarPedidoDTO(
+        @NotNull Long clienteID,
+        @NotNull List<ItemPedidoDTO> itens
+        ) {
 }
