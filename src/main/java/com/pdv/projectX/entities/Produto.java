@@ -1,10 +1,8 @@
 package com.pdv.projectX.entities;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -17,6 +15,7 @@ import java.math.BigDecimal;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "produtos")
 public class Produto {
 
 
@@ -25,15 +24,18 @@ public class Produto {
     private Long id;
 
     @Size(min = 1, max = 32)
-    @NotNull(message = "O seu produto precisar ter um nome")
+    @NotBlank(message = "O seu produto precisar ter um nome")
+    @Column(name = "nome",nullable = false, length = 32)
     private String nome;
 
     @Size(min = 1, max = 100)
-    @NotNull(message = "Você precisa adicionar uma descrição para o seu produto")
+    @NotBlank(message = "Você precisa adicionar uma descrição para o seu produto")
+    @Column(name = "descricao",length = 100,nullable = false)
     private String descricao;
 
     @NotNull(message = "O produto precisa ter um preço!")
-    private BigDecimal precoProduto;
+    @Column(name = "preco_produto",nullable = false,precision = 10,scale = 2)
+    private BigDecimal precoProduto = BigDecimal.ZERO;
 
 
 

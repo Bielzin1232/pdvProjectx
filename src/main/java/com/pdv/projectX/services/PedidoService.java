@@ -34,7 +34,7 @@ public class PedidoService {
         this.pedidoRepository = pedidoRepository;
     }
 
-
+   //Método criar pedido e vincular ao cliente
     @Transactional
     public Pedido criarPedido(CriarPedidoDTO dto) {
         Cliente cliente = clienteRepository.findById(dto.clienteID()).orElseThrow(() -> new RuntimeException("Cliente não encontrado!"));

@@ -18,7 +18,6 @@ public class ItemPedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pedido_id", nullable = false)
@@ -28,10 +27,10 @@ public class ItemPedido {
     @JoinColumn(name = "produto_id",nullable = false)
     private Produto produto;
 
-    @Column(nullable = false)
+    @Column(name = "quantidade_item",nullable = false)
     private Integer quantidade;
 
-    @Column(nullable = false,precision = 10,scale = 2)
+    @Column(name = "valor_unitario",nullable = false,precision = 10,scale = 2)
     private BigDecimal valorUnitario;
 
     public BigDecimal getSubTotal() {

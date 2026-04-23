@@ -3,6 +3,8 @@ package com.pdv.projectX.controllers;
 import com.pdv.projectX.dtos.CriarPedidoDTO;
 import com.pdv.projectX.entities.Pedido;
 import com.pdv.projectX.services.PedidoService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +20,13 @@ public class PedidoController {
     }
 
 
+    //Nem sei porque eu coloquei private
+    //Criar e salvar no banco de dados
     @PostMapping("criar")
-    private Pedido criarPedido(CriarPedidoDTO dto) {
-        return pedidoService.criarPedido(dto);
+    public ResponseEntity<Pedido> criarPedido(CriarPedidoDTO dto) {
+        Pedido p = pedidoService.criarPedido(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(p);
+
     }
 
 }
