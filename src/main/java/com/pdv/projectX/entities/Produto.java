@@ -5,13 +5,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,6 +26,18 @@ public class Produto {
     @NotBlank(message = "O seu produto precisar ter um nome")
     @Column(name = "nome",nullable = false, length = 32)
     private String nome;
+
+
+    @NotNull(message = "O estoque do produto é obrigatório!")
+    @Column(name = "estoque",nullable = false)
+    private Integer estoque;
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
+
 
     @Size(min = 1, max = 100)
     @NotBlank(message = "Você precisa adicionar uma descrição para o seu produto")

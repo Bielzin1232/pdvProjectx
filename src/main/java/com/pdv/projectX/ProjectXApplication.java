@@ -10,4 +10,4 @@ public class ProjectXApplication {
 		SpringApplication.run(ProjectXApplication.class, args);
 	}
 
-}
+ }

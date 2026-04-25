@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public record CriarPedidoDTO(
-        @NotNull Long clienteID,
+        @NotNull Long clienteId,
         @NotNull List<ItemPedidoDTO> itens
         ) {
 }

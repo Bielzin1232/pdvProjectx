@@ -1,23 +1,23 @@
 package com.pdv.projectX.entities;
 
 
+import com.pdv.projectX.enums.FormaPagamento;
 import com.pdv.projectX.enums.PedidoStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @Table(name = "pedidos")
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class Pedido {
 
     @Column(name = "data_pedido", nullable = false)
@@ -31,12 +31,17 @@ public class Pedido {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
+
+    @Column(name = "pedido_formapagamento",nullable = false)
+    private FormaPagamento formaPagamento;
+
     @Column(name = "total_pedido", nullable = false,precision = 10,scale = 2)
     private BigDecimal total = BigDecimal.ZERO;
 
     @NotEmpty(message = "Você precisa adicionar pelo menos um item para concluir o pedido")
-    @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
-    private ArrayList<ItemPedido> itensPedido = new ArrayList<>();
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<ItemPedido> itensPedido = new ArrayList<>();
 
     @Column(name = "pedido_status",nullable = false)
     private PedidoStatus status;

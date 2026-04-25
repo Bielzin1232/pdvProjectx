@@ -14,6 +14,7 @@ public record CadastrarProdutoDTO(
         BigDecimal precoProduto
 
 
+
 ) {
 
 }

@@ -3,15 +3,15 @@ package com.pdv.projectX.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "clientes")
 public class Cliente {
 
@@ -29,7 +29,8 @@ public class Cliente {
     //Mudei para long!!
     @Column(name = "numero_telefone")
     @Size(min = 11, max = 11)
+    @Pattern(regexp = "^[0-9]{10,11}$",message = "O número de telefone pode ter apenas números!")
     @NotEmpty(message = "O número de telefone não pode ser vazio!")
-    long numeroTelefone;
+    String numeroTelefone;
 
 }
