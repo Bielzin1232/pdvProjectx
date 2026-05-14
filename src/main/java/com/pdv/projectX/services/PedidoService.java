@@ -13,6 +13,8 @@ import com.pdv.projectX.repository.ClienteRepository;
 import com.pdv.projectX.repository.PedidoRepository;
 import com.pdv.projectX.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,18 +30,18 @@ public class PedidoService {
     private final ClienteRepository clienteRepository;
     private final ProdutoRepository produtoRepository;
     private final PedidoRepository pedidoRepository;
-
-
-    public PedidoService(ClienteRepository clienteRepository, ProdutoRepository produtoRepository, PedidoRepository pedidoRepository) {
+    private final MessageSource messageSource;
+    public PedidoService(ClienteRepository clienteRepository, ProdutoRepository produtoRepository, PedidoRepository pedidoRepository, MessageSource messageSource) {
         this.clienteRepository = clienteRepository;
         this.produtoRepository = produtoRepository;
         this.pedidoRepository = pedidoRepository;
+        this.messageSource = messageSource;
     }
 
 
-    public ResponseEntity<Pedido> atualizarStatusPedido(){
-        return null;
-    }
+
+
+
 
     public Pedido buscarPorId(Long id){
       return pedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("Nenhum pedido encontrado com esse id: "+id));
@@ -54,7 +56,6 @@ public class PedidoService {
         return pedidoRepository.save(p);
     }
 
-   //Método criar pedido e vincular ao cliente
     @Transactional
     public Pedido criarPedido(CriarPedidoDTO dto) {
         Cliente cliente = clienteRepository.findById(dto.clienteId()).orElseThrow(() -> new RuntimeException("Cliente não encontrado!"));
@@ -65,9 +66,11 @@ public class PedidoService {
       novoPedido.setTotal(BigDecimal.ZERO);
       for(ItemPedidoDTO item : dto.itens()) {
 
-          //Produto vindo do banco de dados e sendo chamado aqui! pelo ID do item
-          Produto p = produtoRepository.findById(item.produtoId()).orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
-
+          Produto p = produtoRepository.findById(item.produtoId()).orElseThrow(() -> {
+              String mensagem = messageSource.getMessage("produto.nao.encontrado", null, LocaleContextHolder.getLocale());
+              return new RuntimeException(mensagem);
+          });
+          if(dto.itens().size() <= p.getEstoque()) {
           ItemPedido novoItem =  new ItemPedido();
           novoItem.setProduto(p);
           novoItem.setQuantidade(item.quantidade());
@@ -77,9 +80,10 @@ public class PedidoService {
           BigDecimal subTotal = novoItem.getValorUnitario().multiply(new BigDecimal(novoItem.getQuantidade()));
           novoPedido.setTotal(novoPedido.getTotal().add(subTotal));
       }
+      }
+
       return pedidoRepository.save(novoPedido);
     }
-
 
 
 }

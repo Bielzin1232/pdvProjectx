@@ -46,5 +46,15 @@ public class Pedido {
     @Column(name = "pedido_status",nullable = false)
     private PedidoStatus status;
 
+    @Column(name = "troco", precision = 10,scale = 2)
+    private BigDecimal troco;
+
+
+    @Column(name = "endereco_entegra")
+    private String enderecoEntegra;
+
+    @Column(name = "cep_entrega")
+    private String cep;
+
 
 }

@@ -27,7 +27,12 @@ public class Produto {
     @Column(name = "nome",nullable = false, length = 32)
     private String nome;
 
+    @Column(name = "caminho_imagem")
+    private String caminhoImagem;
 
+    @Column(name = "pausado",nullable = false)
+    private Boolean pausado;
+    
     @NotNull(message = "O estoque do produto é obrigatório!")
     @Column(name = "estoque",nullable = false)
     private Integer estoque;

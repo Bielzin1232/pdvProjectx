@@ -27,6 +27,10 @@ public class ClienteService {
        Cliente clienteSalvo = clienteRepository.save(c);
        return clienteSalvo;
     }
+    @Transactional
+   public void removerCliente(Long id) {
+
+   }
 
 
 }

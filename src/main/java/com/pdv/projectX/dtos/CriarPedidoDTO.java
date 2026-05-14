@@ -10,5 +10,7 @@ import java.util.List;
 public record CriarPedidoDTO(
         @NotNull Long clienteId,
         @NotNull List<ItemPedidoDTO> itens
+
+
         ) {
 }

@@ -4,7 +4,7 @@ import com.pdv.projectX.enums.PedidoStatus;
 import jakarta.validation.constraints.NotNull;
 
 public record AtualizarPedidoStatus(
-        @NotNull(message = "O status é obrigatório")
+        @NotNull(message = "{status.atualizar.obrigatorio}")
         PedidoStatus status
 
 ) {
